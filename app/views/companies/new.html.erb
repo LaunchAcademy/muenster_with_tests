@@ -1,6 +1,16 @@
 <h1>Add Company</h1>
 
 <%= form_for @company do |f| %>
+
+  <% if @company.errors.any? %>
+    <p>Failed to save the company due to the following errors:</p>
+    <ul>
+      <% @company.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  <% end %>
+
   <div>
     <%= f.label :name %>
     <%= f.text_field :name %>

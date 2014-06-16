@@ -12,6 +12,16 @@ feature 'user creates company' do
 
     expect(page).to have_content('Launch Academy')
     expect(Company.count).to eq(1)
+  end
 
+  it 'fails to save if missing attributes' do
+    visit new_company_path
+
+    click_button 'Create Company'
+
+    expect(page).to have_content("Name can't be blank")
+    expect(page).to have_content("Location can't be blank")
+
+    expect(Company.count).to eq(0)
   end
 end
