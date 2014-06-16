@@ -12,9 +12,25 @@ feature 'user views companies' do
 
     visit companies_path # => '/companies'
 
+    expect(page).to have_link('Launch Academy', company_path(launch))
+    expect(page).to have_link('Metis', company_path(metis))
+    expect(page).to have_link('Hack Reactor', company_path(hack_reactor))
+  end
+
+  it 'displays the details for a single company' do
+    launch = Company.create!(name: 'Launch Academy',
+      description: 'blah', location: 'Boston')
+    ee = Job.create!(title: 'Experience Engineer', company: launch)
+    marketer = Job.create!(title: 'Marketer', company: launch)
+
+    visit company_path(launch)
+
     expect(page).to have_content('Launch Academy')
-    expect(page).to have_content('Metis')
-    expect(page).to have_content('Hack Reactor')
+    expect(page).to have_content('blah')
+
+    expect(page).to have_link('Experience Engineer', job_path(ee))
+    expect(page).to have_link('Marketer', job_path(marketer))
+
   end
 
 end
